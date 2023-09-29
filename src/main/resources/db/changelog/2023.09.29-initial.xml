@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+    <changeSet id="2023.09.29-initial" author="jurij.gican@gmail.com">
+        <sql>
+            create table member (id BIGSERIAL primary key,
+                                 name character varying(100));
+        </sql>
+    </changeSet>
+</databaseChangeLog>
