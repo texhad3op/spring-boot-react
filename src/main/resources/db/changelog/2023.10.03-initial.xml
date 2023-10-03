@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+    <changeSet id="2023.10.03-initial-1" author="jurij.gican@gmail.com">
+        <sql>
+            create table departments (id BIGSERIAL primary key,
+                                 name character varying(100));
+        </sql>
+    </changeSet>
+    <changeSet id="2023.10.03-initial-2" author="jurij.gican@gmail.com">
+        <sql>
+            insert into departments (id, name) values (1, 'Jurij');
+            insert into departments (id, name) values (2, 'Maksim');
+            insert into departments (id, name) values (3, 'Marina');
+        </sql>
+    </changeSet>
+</databaseChangeLog>

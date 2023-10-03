@@ -1,7 +1,9 @@
 package com.baeldung.springbootreact;
 
 import com.baeldung.springbootreact.domain.Client;
+import com.baeldung.springbootreact.domain.Department;
 import com.baeldung.springbootreact.domain.Member;
+import com.baeldung.springbootreact.repository.DepartmentRepository;
 import com.baeldung.springbootreact.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -21,12 +23,16 @@ public class RouterConfig {
 //    ClientRepository clientRepository;
 
     private final MemberRepository memberRepository;
+    private final DepartmentRepository departmentRepository;
 
     @Bean
     RouterFunction<ServerResponse> routes() {
         return route(GET("/clients"), request ->
                 ServerResponse.ok().body(memberRepository.findAll(), Member.class)
         )
+                .andRoute(GET("/departments"), request ->
+                        ServerResponse.ok().body(departmentRepository.findAll(), Department.class)
+                )
 //                .andRoute(GET("/clients/{id}"), serverRequest -> {
 //                    Long id = Long.valueOf(serverRequest.pathVariable("id"));
 //                    return ServerResponse.ok().bodyValue(clientRepository.findById(id).orElseThrow(RuntimeException::new));
