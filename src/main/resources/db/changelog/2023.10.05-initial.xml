@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+    <changeSet id="22023.10.05-initial-1" author="jurij.gican@gmail.com">
+        <sql>
+            create sequence seq_rooms;
+            create table rooms(id bigserial primary key, room_type varchar(20), num integer, parent_id bigserial, constraint fk_parent foreign key(parent_id) REFERENCES rooms(id));
+            alter table rooms alter column id set default nextval('seq_rooms');
+        </sql>
+    </changeSet>
+    <changeSet id="2023.10.05-initial-2" author="jurij.gican@gmail.com">
+        <sql>
+            insert into rooms (id, room_type) values (1, 'building');
+            insert into departments (id, name) values (2, 'Maksim');
+            insert into departments (id, name) values (3, 'Marina');
+
+            ALTER SEQUENCE payments_id_seq RESTART WITH 22;
+        </sql>
+    </changeSet>
+</databaseChangeLog>

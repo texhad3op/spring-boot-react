@@ -85,10 +85,13 @@ public class SecurityConfig {
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
 
-        AuthorizationDecision ff = null;
+
+
+
         http
+
                 .authorizeExchange(exchanges -> exchanges
-                        .anyExchange().authenticated()
+                        .anyExchange(). authenticated()
                 )
                 .httpBasic(withDefaults())
                 .formLogin(withDefaults());
