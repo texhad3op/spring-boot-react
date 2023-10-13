@@ -3,13 +3,16 @@ package com.baeldung.springbootreact;
 import com.baeldung.springbootreact.domain.Client;
 import com.baeldung.springbootreact.domain.Department;
 import com.baeldung.springbootreact.domain.Member;
+import com.baeldung.springbootreact.domain.Room;
 import com.baeldung.springbootreact.repository.DepartmentRepository;
 import com.baeldung.springbootreact.repository.MemberRepository;
+import com.baeldung.springbootreact.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.FluxSink;
 
 import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
@@ -24,6 +27,7 @@ public class RouterConfig {
 
     private final MemberRepository memberRepository;
     private final DepartmentRepository departmentRepository;
+    private final RoomRepository roomRepository;
 
     @Bean
     RouterFunction<ServerResponse> routes() {
@@ -33,6 +37,19 @@ public class RouterConfig {
                 .andRoute(GET("/departments"), request ->
                         ServerResponse.ok().body(departmentRepository.findAll(), Department.class)
                 )
+                .andRoute(GET("/rooms"), request ->
+                        ServerResponse.ok().body(roomRepository.findAll(), Room.class)
+                )
+                .andRoute(GET("/reservations"), request ->
+                        ServerResponse.ok().body(roomRepository.retrieveAllReservations(), Room.class)
+                )
+                .andRoute(GET("/all"), request ->
+                        ServerResponse.ok().body(roomRepository.retrieveAllReservationsData(), Room.class)
+                )
+                .andRoute(GET("/test"), request ->
+                        ServerResponse.ok().body(roomRepository.retrieveAllReservationsee(), Room.class)
+                )
+
 //                .andRoute(GET("/clients/{id}"), serverRequest -> {
 //                    Long id = Long.valueOf(serverRequest.pathVariable("id"));
 //                    return ServerResponse.ok().bodyValue(clientRepository.findById(id).orElseThrow(RuntimeException::new));

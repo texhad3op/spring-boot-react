@@ -91,7 +91,8 @@ public class SecurityConfig {
         http
 
                 .authorizeExchange(exchanges -> exchanges
-                        .anyExchange(). authenticated()
+                        .anyExchange().permitAll()
+                        //.authenticated()
                 )
                 .httpBasic(withDefaults())
                 .formLogin(withDefaults());

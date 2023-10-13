@@ -6,17 +6,52 @@
     <changeSet id="22023.10.05-initial-1" author="jurij.gican@gmail.com">
         <sql>
             create sequence seq_rooms;
-            create table rooms(id bigserial primary key, room_type varchar(20), num integer, parent_id bigserial, constraint fk_parent foreign key(parent_id) REFERENCES rooms(id));
+            create table rooms(id bigint primary key, room_type varchar(20), num integer, parent_id bigint null, constraint fk_parent foreign key(parent_id) REFERENCES rooms(id));
             alter table rooms alter column id set default nextval('seq_rooms');
         </sql>
     </changeSet>
     <changeSet id="2023.10.05-initial-2" author="jurij.gican@gmail.com">
         <sql>
             insert into rooms (id, room_type) values (1, 'building');
-            insert into departments (id, name) values (2, 'Maksim');
-            insert into departments (id, name) values (3, 'Marina');
+            insert into rooms (id, room_type, parent_id) values (2, 'floor', 1);
+            insert into rooms (id, room_type, parent_id) values (3, 'floor', 1);
+            insert into rooms (id, room_type, parent_id, num) values (4, 'room', 2, 21);
+            insert into rooms (id, room_type, parent_id, num) values (5, 'room', 2, 22);
 
-            ALTER SEQUENCE payments_id_seq RESTART WITH 22;
+            insert into rooms (id, room_type, parent_id, num) values (6, 'room', 3, 31);
+            insert into rooms (id, room_type, parent_id, num) values (7, 'room', 3, 32);
+            insert into rooms (id, room_type, parent_id, num) values (8, 'room', 3, 33);
+
+
+            alter sequence seq_rooms restart with 1;
+
+
+            WITH RECURSIVE a AS (
+                SELECT id, parent_id, 1::integer recursion_level  --<-- initialize it here
+        FROM rooms
+WHERE parent_id IS NULL
+UNION ALL
+        SELECT d.id, d.parent_id, a.recursion_level +1    --<-- iteration increment
+        FROM rooms d
+JOIN a ON a.id = d.parent_id
+) SELECT * FROM a;
+
         </sql>
     </changeSet>
+
+    <changeSet id="22023.10.05-initial-4" author="jurij.gican@gmail.com">
+        <sql>
+            create sequence seq_reservations;
+            create table reservations(id bigint primary key, start timestamp without time zone, finish timestamp without time zone, room_id bigint null, constraint fk_parent foreign key(room_id) REFERENCES rooms(id));
+            alter table reservations alter column id set default nextval('seq_reservations');
+        </sql>
+    </changeSet>
+
+    <changeSet id="22023.10.05-initial-5" author="jurij.gican@gmail.com">
+        <sql>
+            insert into reservations (id, start, finish, room_id) values (1, '2023-10-05 11:30:30', '2023-10-05 11:30:30', 21);
+        </sql>
+    </changeSet>
+
+
 </databaseChangeLog>

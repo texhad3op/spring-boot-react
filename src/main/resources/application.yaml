@@ -11,7 +11,7 @@ spring:
 
   liquibase:
     url: jdbc:postgresql://localhost:5432/hotels
-    enabled: true
+    enabled: false
     change-log: classpath:db/liquibase-changelog.xml
     user: postgres
     password: rootpassword
